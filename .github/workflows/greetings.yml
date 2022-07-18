@@ -3,13 +3,15 @@ name: greeting-action-trial
 on: pull_request_target
 
 jobs:
-  greeting:
+  greetings:
     runs-on: ubuntu-latest
-    permissions:
-      issues: write
-      pull-requests: write
     steps:
-    - uses: mertssmnoglu/greeting-action@deauth
-      with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
-        message: "This is a test message. I hope it works."
+      - name: my-step
+        env:
+          REPO: ${{ github.event.repository.name }}
+          OWNER: ${{ github.event.repository.owner.login }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          curl -s -X POST https://api.github.com/repos/$OWNER/$REPO/issues/$ISSUE_NUMBER/comments \
+            -d '{"body":"Hello ${{ github.event.issue.user.login }}, thanks for your issue!"}'
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
