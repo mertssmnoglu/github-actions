@@ -1,0 +1,16 @@
+name: greeting-action-trial
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  assign:
+    name: Take an issue
+    runs-on: ubuntu-latest
+    steps:
+    - name: take the issue
+      uses: mertssmnoglu/greeting-action@main
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
