@@ -3,15 +3,12 @@ name: greeting-action-trial
 on: pull_request_target
 
 jobs:
-  greetings:
+  greeting:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
-      - name: my-step
-        env:
-          REPO: ${{ github.event.repository.name }}
-          OWNER: ${{ github.event.repository.owner.login }}
-          ISSUE_NUMBER: ${{ github.event.issue.number }}
-        run: |
-          curl -s -X POST https://api.github.com/repos/$OWNER/$REPO/issues/$ISSUE_NUMBER/comments \
-            -d '{"body":"Hello ${{ github.event.issue.user.login }}, thanks for your issue!"}'
-            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+    - uses: actions/first-interaction@v1
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        pr-message: 'Teşekkürler!'
