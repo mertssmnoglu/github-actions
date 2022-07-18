@@ -11,4 +11,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: take the issue
-      uses: mertssmnoglu/greeting-action@main
+      uses: mertssmnoglu/greeting-action@deauth
