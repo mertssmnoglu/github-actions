@@ -1,9 +1,8 @@
 name: greeting-action-trial
 
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+    types: [ opened]
 
 jobs:
   assign:
