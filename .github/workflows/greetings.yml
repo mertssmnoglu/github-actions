@@ -1,13 +1,14 @@
 name: greeting-action-trial
 
-on:
-  pull_request:
-    types: [ opened]
+on: pull_request_target
 
 jobs:
-  assign:
-    name: Take an issue
+  greeting:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
     steps:
-    - name: take the issue
-      uses: mertssmnoglu/greeting-action@deauth
+    - uses: mertssmnoglu/greeting-action@deauth
+      with:
+        message: "This is a test message. I hope it works."
