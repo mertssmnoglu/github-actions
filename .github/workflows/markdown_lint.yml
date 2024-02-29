@@ -25,4 +25,4 @@ jobs:
       - name: Install Dependencies
         run: npm install -g markdownlint-cli
       - name: Lint
-        run: markdownlint
+        run: markdownlint ./*.md
