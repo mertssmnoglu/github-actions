@@ -1,0 +1,28 @@
+name: Markdown Lin
+run-name: MD/Lint
+
+on:
+  push:
+    branches:
+      - main
+      - docs
+  pull_request:
+    branches:
+      - main
+      - docs
+  workflow_dispatch:
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Install Dependencies
+        run: npm install -g markdownlint-cli
+      - name: Lint
+        run: markdownlint
