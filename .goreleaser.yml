@@ -1,4 +1,4 @@
-project_name: example
+project_name: myproject
 builds:
   - env:
       - CGO_ENABLED=0
@@ -11,11 +11,9 @@ builds:
       - arm64
 
 archives:
-  - format: tar.gz
-    # this name template makes the OS and Arch compatible with the results of uname.
-    # use zip for windows archives
-    format_overrides:
-    - goos: windows
-      format: zip
+  - format: binary
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+checksum:
+  name_template: 'checksums.txt'
 changelog:
   sort: asc
