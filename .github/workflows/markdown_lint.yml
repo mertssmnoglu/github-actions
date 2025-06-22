@@ -1,4 +1,4 @@
-name: Markdown Lin
+name: Markdown Lint
 run-name: MD/Lint
 
 on:
