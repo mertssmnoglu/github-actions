@@ -1,0 +1,59 @@
+name: Performance Test
+
+on:
+  pull_request:
+    branches:
+      - main # or your main branch
+  push:
+    branches:
+      - main # or your main branch
+
+jobs:
+  perf-test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [18, 19, 20, 21, 22, 23, 24] # Add or remove Node.js versions as needed
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Build
+        run: npm install
+
+      - name: Pull perf-runner image
+        run: docker pull muratkirazkaya/perf-runner:latest
+
+      - name: Run perf-runner tests on Node.js ${{ matrix.node-version }}
+        env:
+          NODE_VERSION: ${{ matrix.node-version }}
+          PACKAGE_NAME: body-parser           # Replace with your (NPM) package name
+          TEST_DIR: 'expf-tests'              # Replace with your test directory name (expf-tests recommended as a standard)
+          REPOSITORY_OWNER: ${{ github.repository_owner }}
+          REPOSITORY: ${{ github.event.repository.name }}
+          PR_ID: ${{ github.event.pull_request.number || '' }}
+          COMMENTTOKEN: ${{ secrets.COMMENTTOKEN }}
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}:/app \
+            -e NODE_VERSION=$NODE_VERSION \
+            -e PACKAGE_NAME=$PACKAGE_NAME \
+            -e TEST_DIR=$TEST_DIR \
+            -e PR_ID=$PR_ID \
+            -e COMMENTTOKEN=$COMMENTTOKEN \
+            -e REPOSITORY_OWNER=$REPOSITORY_OWNER \
+            -e REPOSITORY=$REPOSITORY \
+            muratkirazkaya/perf-runner:latest \
+            bash -c "source /root/.nvm/nvm.sh && \
+                    nvm install $NODE_VERSION && \
+                    nvm use $NODE_VERSION && \
+                    npm install -g autocannon && \
+                    node run-tests.mjs"
