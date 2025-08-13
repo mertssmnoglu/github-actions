@@ -36,7 +36,7 @@ jobs:
         env:
           NODE_VERSION: ${{ matrix.node-version }}
           PACKAGE_NAME: body-parser           # Replace with your (NPM) package name
-          TEST_DIR: 'expf-tests'              # Replace with your test directory name (expf-tests recommended as a standard)
+          TEST_DIR: '.testdir'              # Replace with your test directory name (expf-tests recommended as a standard)
           REPOSITORY_OWNER: ${{ github.repository_owner }}
           REPOSITORY: ${{ github.event.repository.name }}
           PR_ID: ${{ github.event.pull_request.number || '' }}
