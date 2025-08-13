@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [18, 19, 20, 21, 22, 23, 24] # Add or remove Node.js versions as needed
+        node-version: [20, 22, 24] # Add or remove Node.js versions as needed
 
     steps:
       - name: Checkout code
